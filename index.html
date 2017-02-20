@@ -55,7 +55,7 @@
           </section>
           
           <section>
-            Agile Analytics screenshot
+            <img data-src="img/agile-analytics.png" alt="github.com/cmheisel/agile-analytics" />
             <aside class="notes">
               Started when I wrote some code
               Takes JIRA filter, runs agile reports
@@ -70,7 +70,8 @@
               <li>More nerdy team improvement stats</li>
             </ul>
             <aside class="notes">
-              I could go on forever about this
+              I could go on forever about this stuff
+              evidence-based improvement of teams is my jam
             </aside>
           </section>
 
@@ -97,10 +98,67 @@
           </section>
         </section>
 
-      <section>
-        Sequential
-        <aside class="notes">
-        </aside>
+      <section id="sequential">
+        <section data-background="img/single-elevator.jpg">
+          <h2>Sequentially</h2>
+        </section>
+        
+        <section>
+          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+URLS = [
+    "http://slowyourload.net/5/https://chrisheisel.com",
+    "http://slowyourload.net/4/https://chrisheisel.com",
+    "http://slowyourload.net/3/https://chrisheisel.com",
+    "http://slowyourload.net/2/https://chrisheisel.com",
+    "http://slowyourload.net/1/https://chrisheisel.com",
+]
+
+
+def get_url(url):
+    print("GET {}".format(url))
+    requests.get(url)
+    print("\tDONE GET {}".format(url))
+
+
+def main():
+    print("Sequential ====================")
+    start = timer()
+    for url in URLS:
+        get_url(url)
+    end = timer()
+    duration = (end - start)
+    print("DONE in {} seconds".format(duration))
+          </code></pre>
+        </section>
+
+        <section>
+          <pre class="stretch"><code class="bash hljs" data-trim contenteditable>
+Sequential ====================
+GET http://slowyourload.net/5/https://chrisheisel.com
+	DONE GET http://slowyourload.net/5/https://chrisheisel.com
+GET http://slowyourload.net/4/https://chrisheisel.com
+	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+GET http://slowyourload.net/3/https://chrisheisel.com
+	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+GET http://slowyourload.net/2/https://chrisheisel.com
+	DONE GET http://slowyourload.net/2/https://chrisheisel.com
+GET http://slowyourload.net/1/https://chrisheisel.com
+	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+DONE in 23.727349369000876 seconds
+          </code></pre>
+        </section>
+        
+        <section>
+          <img data-src="img/sequential-diag.png" alt="As fast as possible" />
+        </section>
+        
+        <section>
+          <ol>
+            <li class="fragment">Make it work</li>
+            <li class="fragment">Make it work right</li>
+            <li class="fragment">Make it work fast</li>
+          </ol>
+        </section>
       </section>
 
       <section>
