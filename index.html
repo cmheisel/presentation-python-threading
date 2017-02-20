@@ -27,7 +27,7 @@
 				
         <section id="title">
           <h1>Dr. Strangethread</h1>
-          <h5>Or: how I stopped worrying and learned 🐍 threading</h5>
+          <h5>How I stopped worrying and <br> learned 🐍 threading</h5>
           <p><a href="http://chrisheisel.com">@cmheisel</a> / PyATL March 2017</p>
         </section>
         
@@ -92,10 +92,6 @@
               <li>Do some cleanup stuff</li>
             </ol>
           </section>
-          
-          <section>
-            <img data-src="img/fast.jpg" alt="As fast as possible" />
-          </section>
         </section>
 
       <section id="sequential">
@@ -153,10 +149,24 @@ DONE in 23.727349369000876 seconds
         </section>
         
         <section>
+          <img data-src="img/fast.jpg" alt="As fast as possible" />
+        </section>
+        
+        <section>
           <ol>
-            <li class="fragment">Make it work</li>
-            <li class="fragment">Make it work right</li>
-            <li class="fragment">Make it work fast</li>
+            <li>Do some startup stuff</li>
+            <li>For each team
+              <ol>
+                <li class="fragment highlight-red grow">Fetch the data</li>
+                <li>Generate all the reports</li>
+                <li>For each report
+                    <ol>
+                      <li class="fragment highlight-red grow">Write the report to Google spreadsheet</li>
+                    </ol>
+                </li>
+              </ol>
+            </li>
+            <li>Do some cleanup stuff</li>
           </ol>
         </section>
       </section>
@@ -180,9 +190,9 @@ DONE in 23.727349369000876 seconds
         
         <section>
           <ul>
-            <li class="fragment">Don't care what order the API calls are made in</li>
-            <li class="fragment">Don't have to take the output from any one API call and feed it into another</li>
-            <li class="fragment"><strong>Do</strong> want to do some things <strong>only after all API calls are finished</strong></li>
+            <li class="fragment fade-in">Don't care what order the API calls are made in</li>
+            <li class="fragment fade-in">Don't have to take the output from any one API call and feed it into another</li>
+            <li class="fragment fade-in">Do some things <strong class="fragment highlight-red">only after all API calls are finished</strong></li>
           </ul>
         </section>
       </section>
