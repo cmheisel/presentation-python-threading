@@ -24,11 +24,13 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section id="title">
+				
+        <section id="title">
           <h1>Dr. Strangethread</h1>
           <h5>Or: how I stopped worrying and learned 🐍 threading</h5>
           <p><a href="http://chrisheisel.com">@cmheisel</a> / PyATL March 2017</p>
         </section>
+        
         <section id="about">
           <section>
             <h2>Who am I?</h2>
@@ -43,6 +45,70 @@
             <a href="https://www.pindrop.com"><img data-src="img/pindrop-site.png" alt="Pindrop" /></a>
           </section>
         </section>
+        
+        <section id="problem">
+          <section>
+            <img data-src="img/problem.jpg" alt="Well there's your problem" />
+            <aside class="notes">
+              use tech to solve problem vs. looking for a problem tech will solve
+            </aside>
+          </section>
+          
+          <section>
+            Agile Analytics screenshot
+            <aside class="notes">
+              Started when I wrote some code
+              Takes JIRA filter, runs agile reports
+            </aside>
+          </section>
+
+          <section>
+            <ul>
+              <li>List of every ticket finished and how long it took to complete</li>
+              <li>Bugs created during the time period</li>
+              <li>50th, 75th, 95th percentile of how long it took to finish things</li>
+              <li>More nerdy team improvement stats</li>
+            </ul>
+            <aside class="notes">
+              I could go on forever about this
+            </aside>
+          </section>
+
+          <section>
+            <ol>
+              <li>Do some startup stuff</li>
+              <li>For each team
+                <ol>
+                  <li>Fetch the data</li>
+                  <li>Generate all the reports</li>
+                  <li>For each report
+                      <ol>
+                        <li>Write the report to Google spreadsheet</li>
+                      </ol>
+                  </li>
+                </ol>
+              </li>
+              <li>Do some cleanup stuff</li>
+            </ol>
+          </section>
+          
+          <section>
+            <img data-src="img/fast.jpg" alt="As fast as possible" />
+          </section>
+        </section>
+
+      <section>
+        Sequential
+        <aside class="notes">
+        </aside>
+      </section>
+
+      <section>
+        Parallel
+        <aside class="notes">
+        </aside>
+      </section>
+
 			</div>
 		</div>
 
