@@ -7,8 +7,8 @@ Viewable at https://cmheisel.github.io/presentation-python-threading/
   * Writing multiple reports to Google spreadsheets
   * Doing that for multiple teams
   * Wanted execution time to be no longer than the longest API operation to write
-* Threading danger
 * Sequential version
+* Threading danger
 * Threading naive version
 * Threading version
 * Bonus: asyncio version
