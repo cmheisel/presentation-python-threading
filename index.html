@@ -149,7 +149,7 @@ DONE in 23.727349369000876 seconds
         </section>
         
         <section>
-          <img data-src="img/sequential-diag.png" alt="As fast as possible" />
+          <img data-src="img/sequential-diag.png" alt="Sequential diagram" />
         </section>
         
         <section>
@@ -174,16 +174,197 @@ DONE in 23.727349369000876 seconds
           <img data-src="img/threads-scary-quote1.png" />
         </section>
         
+        <section data-background="img/hold-my-beer.jpg">
+          &nbsp;
+        </section>
+        
         <section>
-          <img data-src="img/hold-my-beer.jpg" />
+          <ul>
+            <li class="fragment">Don't care what order the API calls are made in</li>
+            <li class="fragment">Don't have to take the output from any one API call and feed it into another</li>
+            <li class="fragment"><strong>Do</strong> want to do some things <strong>only after all API calls are finished</strong></li>
+          </ul>
         </section>
       </section>
       
       <section id="threading">
-        Threaded
-        <aside class="notes">
-        </aside>
+        <section data-background="img/multiple-elevators.jpg">
+          <h2>In parallel</h2>
+          <p>With threads!</p>
+        </section>
+        
+        <section>
+          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+def main():
+    print("Threaded ====================")
+    start = timer()
+    for url in URLS:
+        t = threading.Thread(
+            name="get_url - {}".format(url),
+            target=get_url,
+            args=(url, )
+        )
+        t.start()
+    end = timer()
+    duration = (end - start)
+    print("DONE in {} seconds".format(duration))
+          </code></pre>
+        </section>
+        
+        <section>
+          <pre class="stretch"><code class="bash hljs" data-trim contenteditable>
+Threaded naive ====================
+GET http://slowyourload.net/5/https://chrisheisel.com
+GET http://slowyourload.net/4/https://chrisheisel.com
+GET http://slowyourload.net/3/https://chrisheisel.com
+GET http://slowyourload.net/2/https://chrisheisel.com
+GET http://slowyourload.net/1/https://chrisheisel.com
+DONE in 0.001873285997135099 seconds
+	DONE GET http://slowyourload.net/2/https://chrisheisel.com
+	DONE GET http://slowyourload.net/5/https://chrisheisel.com
+	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+          </code></pre>
+        </section>
+        
+        <section>
+          <img data-src="img/threaded-naive.png" alt="Naive threaded diagram" />
+        </section>
+
+        <section>
+          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+def main():
+    print("Threaded ====================")
+    start = timer()
+    for url in URLS:
+        t = threading.Thread(
+            name="get_url - {}".format(url),
+            target=get_url,
+            args=(url, )
+        )
+        t.start()
+    
+    # Ooops, we just go into this next code block
+    # without waiting for all those threads to stop
+    
+    end = timer()
+    duration = (end - start)
+    print("DONE in {} seconds".format(duration))
+          </code></pre>
+        </section>
+      
+        <section>
+          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+            def main():
+                print("Threaded ====================")
+                start = timer()
+                for url in URLS:
+                    t = threading.Thread(
+                        name="get_url - {}".format(url),
+                        target=get_url,
+                        args=(url, )
+                    )
+                    t.start()
+
+                while len(threading.enumerate()) > 1:
+                    for t in threading.enumerate():
+                        if t is threading.main_thread():
+                            continue
+                        t.join()
+
+                end = timer()
+                duration = (end - start)
+                print("DONE in {} seconds".format(duration))
+          </code></pre>
+        </section>
+
+        <section>
+          <pre class="stretch"><code class="bash hljs" data-trim contenteditable>
+Threaded ====================
+GET http://slowyourload.net/5/https://chrisheisel.com
+GET http://slowyourload.net/4/https://chrisheisel.com
+GET http://slowyourload.net/3/https://chrisheisel.com
+GET http://slowyourload.net/2/https://chrisheisel.com
+GET http://slowyourload.net/1/https://chrisheisel.com
+	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+	DONE GET http://slowyourload.net/2/https://chrisheisel.com
+	DONE GET http://slowyourload.net/5/https://chrisheisel.com
+	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+DONE in 8.352946228995279 seconds
+          </code></pre>
+        </section>
+
+        <section>
+          <img data-src="img/threaded-fixed.png" alt="Fixed threaded diagram" />
+        </section>
+
+        <section data-background="img/falcon-landing-pov.gif">
+          <h1 class="fragment">Ohhhhh yeaaaaaa</h1>
+        </section>
       </section>
+      
+      <section>
+        <section data-background="img/mib-old-busted.gif">
+            <h4 class="fragment"><strong>Old busted:</strong> Threading</h4>
+            <h4 class="fragment"><strong>New hotness:</strong> asyncio</h4>
+        </section>
+
+        <section>
+          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+async def main(loop):
+    print("Async ====================")
+    start = timer()
+    futures = []
+    for url in URLS:
+        future = loop.run_in_executor(None, get_url, url)
+        futures.append(future)
+
+    for response in await asyncio.gather(*futures):
+        pass
+
+    end = timer()
+    duration = (end - start)
+    print("DONE in {} seconds".format(duration))
+
+
+if __name__ == "__main__":
+    event_loop = asyncio.get_event_loop()
+    try:
+        event_loop.run_until_complete(main(event_loop))
+    finally:
+        event_loop.close()
+          </code></pre>
+        </section>
+      
+
+        <section>
+          <pre class="stretch"><code class="bash hljs" data-trim contenteditable>
+Async ====================
+GET http://slowyourload.net/5/https://chrisheisel.com
+GET http://slowyourload.net/4/https://chrisheisel.com
+GET http://slowyourload.net/3/https://chrisheisel.com
+GET http://slowyourload.net/2/https://chrisheisel.com
+GET http://slowyourload.net/1/https://chrisheisel.com
+	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+	DONE GET http://slowyourload.net/5/https://chrisheisel.com
+	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+	DONE GET http://slowyourload.net/2/https://chrisheisel.com
+	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+DONE in 8.631839034002041 seconds
+          </code></pre>
+        </section>
+      
+      </section>
+
+      <section>
+        <h1>Ask more questions</h1>
+        <ul>
+          <li>Twitter: <a href="https://twitter.com/cmheisel">@cmheisel</a></li>
+          <li>Github: <a href="https://github.com/cmheisel">@cmheisel</a></li>
+          <li><a href="https://chrisheisel.com">https://chrisheisel.com</a></li>
+        </ul>
 
 			</div>
 		</div>
