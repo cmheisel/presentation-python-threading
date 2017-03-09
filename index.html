@@ -100,7 +100,7 @@
         </section>
         
         <section>
-          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+          <pre class="stretch"><code class="python hljs line-numbers" data-trim contenteditable>
 URLS = [
     "http://slowyourload.net/5/https://chrisheisel.com",
     "http://slowyourload.net/4/https://chrisheisel.com",
@@ -204,7 +204,7 @@ DONE in 23.727349369000876 seconds
         </section>
         
         <section>
-          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+          <pre class="stretch"><code class="python hljs line-numbers" data-trim contenteditable>
 def main():
     print("Threaded ====================")
     start = timer()
@@ -243,7 +243,7 @@ DONE in 0.001873285997135099 seconds
         </section>
 
         <section>
-          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+          <pre class="stretch"><code class="python hljs line-numbers" data-trim contenteditable>
 def main():
     print("Threaded ====================")
     start = timer()
@@ -265,7 +265,7 @@ def main():
         </section>
       
         <section>
-          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+          <pre class="stretch"><code class="python hljs line-numbers" data-trim contenteditable>
             def main():
                 print("Threaded ====================")
                 start = timer()
@@ -322,7 +322,7 @@ DONE in 8.352946228995279 seconds
         </section>
 
         <section>
-          <pre class="stretch"><code class="python hljs" data-trim contenteditable>
+          <pre class="stretch"><code class="python hljs line-numbers" data-trim contenteditable>
 async def main(loop):
     print("Async ====================")
     start = timer()
@@ -392,7 +392,8 @@ DONE in 8.631839034002041 seconds
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/line-numbers/line-numbers.js'}
 				]
 			});
 		</script>
