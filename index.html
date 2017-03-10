@@ -1,30 +1,30 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>How I stopped worrying and learned threading in Python</title>
+    <title>How I stopped worrying and learned threading in Python</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
         <section id="title">
           <h1>Dr. Strangethread</h1>
           <h5>How I stopped worrying and <br> learned 🐍 threading</h5>
@@ -131,15 +131,15 @@ def main():
           <pre class="stretch"><code class="bash hljs" data-trim contenteditable>
 Sequential ====================
 GET http://slowyourload.net/5/https://chrisheisel.com
-	DONE GET http://slowyourload.net/5/https://chrisheisel.com
+  DONE GET http://slowyourload.net/5/https://chrisheisel.com
 GET http://slowyourload.net/4/https://chrisheisel.com
-	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+  DONE GET http://slowyourload.net/4/https://chrisheisel.com
 GET http://slowyourload.net/3/https://chrisheisel.com
-	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+  DONE GET http://slowyourload.net/3/https://chrisheisel.com
 GET http://slowyourload.net/2/https://chrisheisel.com
-	DONE GET http://slowyourload.net/2/https://chrisheisel.com
+  DONE GET http://slowyourload.net/2/https://chrisheisel.com
 GET http://slowyourload.net/1/https://chrisheisel.com
-	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+  DONE GET http://slowyourload.net/1/https://chrisheisel.com
 DONE in 23.727349369000876 seconds
           </code></pre>
         </section>
@@ -230,11 +230,11 @@ GET http://slowyourload.net/3/https://chrisheisel.com
 GET http://slowyourload.net/2/https://chrisheisel.com
 GET http://slowyourload.net/1/https://chrisheisel.com
 DONE in 0.001873285997135099 seconds
-	DONE GET http://slowyourload.net/2/https://chrisheisel.com
-	DONE GET http://slowyourload.net/5/https://chrisheisel.com
-	DONE GET http://slowyourload.net/4/https://chrisheisel.com
-	DONE GET http://slowyourload.net/1/https://chrisheisel.com
-	DONE GET http://slowyourload.net/3/https://chrisheisel.com
+  DONE GET http://slowyourload.net/2/https://chrisheisel.com
+  DONE GET http://slowyourload.net/5/https://chrisheisel.com
+  DONE GET http://slowyourload.net/4/https://chrisheisel.com
+  DONE GET http://slowyourload.net/1/https://chrisheisel.com
+  DONE GET http://slowyourload.net/3/https://chrisheisel.com
           </code></pre>
         </section>
         
@@ -269,6 +269,7 @@ def main():
             def main():
                 print("Threaded ====================")
                 start = timer()
+                my_threads = []
                 for url in URLS:
                     t = threading.Thread(
                         name="get_url - {}".format(url),
@@ -276,12 +277,10 @@ def main():
                         args=(url, )
                     )
                     t.start()
+                    my_threads.append(t)
 
-                while len(threading.enumerate()) > 1:
-                    for t in threading.enumerate():
-                        if t is threading.main_thread():
-                            continue
-                        t.join()
+                for t in my_threads:
+                    t.join()
 
                 end = timer()
                 duration = (end - start)
@@ -297,11 +296,11 @@ GET http://slowyourload.net/4/https://chrisheisel.com
 GET http://slowyourload.net/3/https://chrisheisel.com
 GET http://slowyourload.net/2/https://chrisheisel.com
 GET http://slowyourload.net/1/https://chrisheisel.com
-	DONE GET http://slowyourload.net/1/https://chrisheisel.com
-	DONE GET http://slowyourload.net/2/https://chrisheisel.com
-	DONE GET http://slowyourload.net/5/https://chrisheisel.com
-	DONE GET http://slowyourload.net/3/https://chrisheisel.com
-	DONE GET http://slowyourload.net/4/https://chrisheisel.com
+  DONE GET http://slowyourload.net/1/https://chrisheisel.com
+  DONE GET http://slowyourload.net/2/https://chrisheisel.com
+  DONE GET http://slowyourload.net/5/https://chrisheisel.com
+  DONE GET http://slowyourload.net/3/https://chrisheisel.com
+  DONE GET http://slowyourload.net/4/https://chrisheisel.com
 DONE in 8.352946228995279 seconds
           </code></pre>
         </section>
@@ -357,11 +356,11 @@ GET http://slowyourload.net/4/https://chrisheisel.com
 GET http://slowyourload.net/3/https://chrisheisel.com
 GET http://slowyourload.net/2/https://chrisheisel.com
 GET http://slowyourload.net/1/https://chrisheisel.com
-	DONE GET http://slowyourload.net/3/https://chrisheisel.com
-	DONE GET http://slowyourload.net/5/https://chrisheisel.com
-	DONE GET http://slowyourload.net/4/https://chrisheisel.com
-	DONE GET http://slowyourload.net/2/https://chrisheisel.com
-	DONE GET http://slowyourload.net/1/https://chrisheisel.com
+  DONE GET http://slowyourload.net/3/https://chrisheisel.com
+  DONE GET http://slowyourload.net/5/https://chrisheisel.com
+  DONE GET http://slowyourload.net/4/https://chrisheisel.com
+  DONE GET http://slowyourload.net/2/https://chrisheisel.com
+  DONE GET http://slowyourload.net/1/https://chrisheisel.com
 DONE in 8.631839034002041 seconds
           </code></pre>
         </section>
@@ -376,26 +375,26 @@ DONE in 8.631839034002041 seconds
           <li><a href="https://chrisheisel.com">https://chrisheisel.com</a></li>
         </ul>
 
-			</div>
-		</div>
+      </div>
+    </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/line-numbers/line-numbers.js'}
-				]
-			});
-		</script>
-	</body>
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/line-numbers/line-numbers.js'}
+        ]
+      });
+    </script>
+  </body>
 </html>

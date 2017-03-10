@@ -22,6 +22,7 @@ def get_url(url):
 def main():
     print("Threaded ====================")
     start = timer()
+    my_threads = []
     for url in URLS:
         t = threading.Thread(
             name="get_url - {}".format(url),
@@ -29,12 +30,10 @@ def main():
             args=(url, )
         )
         t.start()
+        my_threads.append(t)
 
-    while len(threading.enumerate()) > 1:
-        for t in threading.enumerate():
-            if t is threading.main_thread():
-                continue
-            t.join()
+    for t in my_threads:
+        t.join()
 
     end = timer()
     duration = (end - start)
